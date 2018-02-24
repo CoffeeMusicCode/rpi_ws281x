@@ -5,9 +5,11 @@ from neopixel import *
 # import argparse
 # import signal
 import sys
+
 def signal_handler(signal, frame):
         colorWipe(strip, Color(0,0,0))
         sys.exit(0)
+
 
 # LED strip configuration:
 LED_COUNT      = 120      # Number of LED pixels.
@@ -19,6 +21,7 @@ LED_INVERT     = False   # True to invert the signal (when using NPN transistor 
 LED_CHANNEL    = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 LED_STRIP      = ws.WS2811_STRIP_GRB   # Strip type and colour ordering
 
+
 LO = 29 # Left Outside
 LT = 4 # Left Top
 LI = 22 # Left Inside
@@ -27,12 +30,10 @@ RI = 22 # Right Inside
 RT = 4 # Right Top
 RO = 29 # Right Outside
 
-# strip.numPixels()
-# strip.setPixelColor(i, Color(255, 0, 0))
-# stripshow()
 
 def showCount():
     return LO + LT + LI + BB + RI + RT + RO, LED_COUNT
+
 
 # Define functions which animate LEDs in various ways.
 def colorWipe(strip, color, wait_ms=100):
@@ -41,6 +42,13 @@ def colorWipe(strip, color, wait_ms=100):
         strip.setPixelColor(i, color)
         strip.show()
         time.sleep(wait_ms/1000.0)
+
+
+def turnOff(strip):
+    for i in range(strip.numPixels()):
+        strip.setPixelColor(i, Color(0, 0, 0))
+    strip.show()
+
 
 # Main program logic follows:
 if __name__ == '__main__':
@@ -54,5 +62,8 @@ if __name__ == '__main__':
     print ('Press Ctrl-C to quit.')
     while True:
         colorWipe(strip, Color(255, 0, 0))  # Red wipe
+        turnOff(strip)
         colorWipe(strip, Color(0, 255, 0))  # Green wipe
+        turnOff(strip)
         colorWipe(strip, Color(0, 0, 255))  # Blue wipe
+        turnOff(strip)
